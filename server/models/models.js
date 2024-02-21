@@ -6,7 +6,7 @@ const Client = sequelize.define("client", {
   pib: { type: DataTypes.STRING },
   phone: { type: DataTypes.STRING, unique: true },
   gender: { type: DataTypes.STRING },
-  numOfVisists: { type: DataTypes.INTEGER },
+  numOfVisists: { type: DataTypes.INTEGER, defaultValue: 0 },
 });
 
 const Service = sequelize.define("service", {
@@ -22,4 +22,22 @@ const Subsection = sequelize.define("subsection", {
 
 const Order = sequelize.define("order", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  price: { type: DataTypes.INTEGER },
+  dateOfRecord: { type: DataTypes.DATE },
 });
+
+Client.hasMany(Order);
+Order.belongsTo(Client);
+
+Service.hasMany(Order);
+Order.belongsTo(Service);
+
+Subsection.hasMany(Order);
+Order.belongsTo(Subsection);
+
+module.exports = {
+  Client,
+  Service,
+  Subsection,
+  Order,
+};
