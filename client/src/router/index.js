@@ -11,3 +11,10 @@ export const routes = [
     { path: "/subsections", element: <Subsections /> },
     { path: "/orders", element: <Orders /> },
 ];
+
+export const paths = [
+    { path: "/clients", name: "Клієнти" },
+    { path: "/services", name: "Послуги" },
+    { path: "/subsections", name: "Філії" },
+    { path: "/orders", name: "Замовлення" },
+];
