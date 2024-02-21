@@ -4,6 +4,7 @@ import { Container } from "../components/UI/container/Container";
 import { Context } from "..";
 import { LinkButton } from "../components/UI/button/LinkButton";
 import { Link } from "react-router-dom";
+import AddUser from "../components/modals/AddUser";
 
 export const Clients = () => {
     const { client } = useContext(Context);
@@ -50,7 +51,7 @@ export const Clients = () => {
                         <Link key="/menu" to="/menu">
                             <LinkButton>Назад</LinkButton>
                         </Link>
-                        <LinkButton>Додати</LinkButton>
+                        <AddUser />
                         <LinkButton>Редагувати</LinkButton>
                     </div>
                 </div>
