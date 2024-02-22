@@ -1,18 +1,50 @@
 const ApiError = require("../error/ApiError");
-const { Order } = require("../models/models");
+const { Order, Client, Service, Subsection } = require("../models/models");
 const serviceController = require("./serviceController");
 
 class OrderController {
-  async create(req, res) {
-    const { price, dateOfRecord, clientId, serviceId, subsectionId } = req.body;
-    const order = await Order.create({
-      price,
-      dateOfRecord,
-      clientId,
-      serviceId,
-      subsectionId,
-    });
-    return res.json({ order });
+  async create(req, res, next) {
+    let price,
+      client,
+      service,
+      subsection,
+      clientName,
+      serviceName,
+      subsectionName;
+    const { dateOfRecord, clientId, serviceId, subsectionId } = req.body;
+
+    try {
+      client = await Client.findByPk(clientId);
+      service = await Service.findByPk(serviceId);
+      subsection = await Subsection.findByPk(subsectionId);
+
+      clientName = client.pib;
+      serviceName = service.name;
+      subsectionName = subsection.address;
+
+      client.numOfVisists += 1;
+      if (client.numOfVisists >= 5) {
+        price = service.price * 0.9;
+      } else {
+        price = service.price;
+      }
+      const order = await Order.create({
+        price,
+        dateOfRecord,
+        clientName,
+        serviceName,
+        subsectionName,
+        clientId,
+        serviceId,
+        subsectionId,
+      });
+
+      await client.save();
+
+      return res.json({ order });
+    } catch (e) {
+      next(ApiError.badRequest(e.message));
+    }
   }
 
   async getAll(req, res) {

@@ -24,6 +24,9 @@ const Order = sequelize.define("order", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   price: { type: DataTypes.INTEGER },
   dateOfRecord: { type: DataTypes.DATE },
+  clientName: { type: DataTypes.STRING },
+  serviceName: { type: DataTypes.STRING },
+  subsectionName: { type: DataTypes.STRING },
 });
 
 Client.hasMany(Order);
