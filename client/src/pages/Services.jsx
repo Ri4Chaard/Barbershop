@@ -1,13 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../components/UI/container/Container";
 import { Context } from "..";
 import { Link } from "react-router-dom";
 import { LinkButton } from "../components/UI/button/LinkButton";
+import { fetchService } from "../http/serviceAPI";
+import { observer } from "mobx-react-lite";
+import { EditService } from "../components/modals/EditService";
 
-export const Services = () => {
+export const Services = observer(() => {
     const { service } = useContext(Context);
 
     const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedService, setSelectedService] = useState("");
+
+    useEffect(() => {
+        fetchService().then((data) => service.setServices(data));
+    }, []);
+
     return (
         <div className="infoTable">
             <Container>
@@ -29,9 +38,13 @@ export const Services = () => {
                                                 : {}
                                         }
                                         onClick={() => {
-                                            selectedRow == serv.id
-                                                ? setSelectedRow(null)
-                                                : setSelectedRow(serv.id);
+                                            if (selectedRow == serv.id) {
+                                                setSelectedRow(null);
+                                                setSelectedService("");
+                                            } else {
+                                                setSelectedRow(serv.id);
+                                                setSelectedService(serv);
+                                            }
                                         }}
                                     >
                                         <td style={{ textAlign: "center" }}>
@@ -47,10 +60,10 @@ export const Services = () => {
                         <Link key="/menu" to="/menu">
                             <LinkButton>Назад</LinkButton>
                         </Link>
-                        <LinkButton>Редагувати</LinkButton>
+                        <EditService service={selectedService} />
                     </div>
                 </div>
             </Container>
         </div>
     );
-};
+});
