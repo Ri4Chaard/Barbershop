@@ -60,11 +60,20 @@ class OrderController {
     const newServiceId = req.body.serviceId;
     const newSubsectionId = req.body.subsectionId;
 
+    let client, service, subsection, clientName, serviceName, subsectionName;
+
     const order = await Order.findByPk(orderId);
 
     if (order) {
+      client = await Client.findByPk(order.clientId);
+      service = await Service.findByPk(order.serviceId);
+      subsection = await Subsection.findByPk(order.subsectionId);
+
       order.price = newPrice;
       order.dateOfRecord = newDateOfRecord;
+      order.clientName = client.pib;
+      order.serviceName = service.name;
+      order.subsectionName = subsection.address;
       order.clientId = newClientId;
       order.serviceId = newServiceId;
       order.subsectionId = newSubsectionId;
