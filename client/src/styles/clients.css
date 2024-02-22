@@ -1,8 +1,8 @@
-.clients {
+.infoTable {
     position: relative;
     display: flex;
 }
-.clients__content {
+.infoTable__content {
     display: flex;
     flex-direction: column;
     margin: 100px 0 0;
@@ -10,7 +10,7 @@
     border-radius: 10px;
     background-color: rgb(228, 228, 228);
 }
-.clients__buttons {
+.infoTable__buttons {
     margin: 50px 0 0 0;
     display: flex;
     justify-content: space-around;

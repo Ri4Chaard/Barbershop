@@ -11,10 +11,10 @@ export const Clients = () => {
 
     const [selectedRow, setSelectedRow] = useState(null);
     return (
-        <div className="clients">
+        <div className="infoTable">
             <Container>
-                <div className="clients__content">
-                    <div className="clients__table">
+                <div className="infoTable__content">
+                    <div className="infoTable__table">
                         <h1>Клієнти</h1>
                         <table>
                             <tbody>
@@ -47,7 +47,7 @@ export const Clients = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div className="clients__buttons">
+                    <div className="infoTable__buttons">
                         <Link key="/menu" to="/menu">
                             <LinkButton>Назад</LinkButton>
                         </Link>

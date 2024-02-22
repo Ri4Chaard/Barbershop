@@ -5,11 +5,11 @@ export default class SubsectionStore {
         this._subsections = [
             {
                 id: 1,
-                adress: "вул. Полунична, б. 12",
+                adress: "вул. Полунична, буд. 12",
             },
             {
                 id: 2,
-                adress: "вул. Миру, б.23",
+                adress: "вул. Миру, буд. 23",
             },
         ];
         makeAutoObservable(this);
