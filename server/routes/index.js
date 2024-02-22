@@ -7,7 +7,7 @@ const subsectionRouter = require("./subsectionRouter");
 
 router.use("/client", clientRouter);
 router.use("/subsection", subsectionRouter);
-router.use("/sevice", serviceRouter);
+router.use("/service", serviceRouter);
 router.use("/order", orderRouter);
 
 module.exports = router;

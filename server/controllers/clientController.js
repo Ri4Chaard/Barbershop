@@ -1,17 +1,21 @@
 const ApiError = require("../error/ApiError");
+const { Client } = require("../models/models");
 
 class ClientController {
-  async add(req, res) {}
-
-  async read(req, res, next) {
-    const { id } = req.query;
-    if (!id) {
-      return next(ApiError.badRequest("ID is not indicated"));
+  async create(req, res, next) {
+    try {
+      const { pib, phone, gender } = req.body;
+      const client = await Client.create({ pib, phone, gender });
+      return res.json({ client });
+    } catch (e) {
+      next(ApiError.badRequest(e.message));
     }
-    res.json(id);
   }
 
-  async rewrite(req, res) {}
+  async getAll(req, res, next) {
+    const clients = await Client.findAll();
+    return res.json(clients);
+  }
 }
 
 module.exports = new ClientController();
