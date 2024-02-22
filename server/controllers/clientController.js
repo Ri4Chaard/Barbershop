@@ -16,6 +16,23 @@ class ClientController {
     const clients = await Client.findAll();
     return res.json(clients);
   }
+
+  async edit(req, res, next) {
+    const clientId = req.body.id;
+    const newPib = req.body.pib;
+    const newPhone = req.body.phone;
+    const newGender = req.body.gender;
+
+    const client = await Client.findByPk(clientId);
+
+    if (client) {
+      client.pib = newPib;
+      client.phone = newPhone;
+      client.gender = newGender;
+      await client.save();
+    }
+    return res.json({ client });
+  }
 }
 
 module.exports = new ClientController();

@@ -20,7 +20,26 @@ class OrderController {
     return res.json(orders);
   }
 
-  async rewrite(req, res) {}
+  async edit(req, res, next) {
+    const orderId = req.body.id;
+    const newPrice = req.body.price;
+    const newDateOfRecord = req.body.dateOfRecord;
+    const newClientId = req.body.clientId;
+    const newServiceId = req.body.serviceId;
+    const newSubsectionId = req.body.subsectionId;
+
+    const order = await Order.findByPk(orderId);
+
+    if (order) {
+      order.price = newPrice;
+      order.dateOfRecord = newDateOfRecord;
+      order.clientId = newClientId;
+      order.serviceId = newServiceId;
+      order.subsectionId = newSubsectionId;
+      await order.save();
+    }
+    return res.json({ order });
+  }
 }
 
 module.exports = new OrderController();

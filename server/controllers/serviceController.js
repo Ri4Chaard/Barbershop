@@ -17,7 +17,20 @@ class ServiceController {
     return res.json(services);
   }
 
-  async rewrite(req, res) {}
+  async edit(req, res, next) {
+    const serviceId = req.body.id;
+    const newName = req.body.name;
+    const newPrice = req.body.price;
+
+    const service = await Service.findByPk(serviceId);
+
+    if (service) {
+      service.name = newName;
+      service.price = newPrice;
+      await service.save();
+    }
+    return res.json({ service });
+  }
 }
 
 module.exports = new ServiceController();
