@@ -1,15 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../styles/clients.css";
 import { Container } from "../components/UI/container/Container";
 import { Context } from "..";
 import { LinkButton } from "../components/UI/button/LinkButton";
 import { Link } from "react-router-dom";
 import AddUser from "../components/modals/AddUser";
+import { observer } from "mobx-react-lite";
+import { fetchClient } from "../http/clientAPI";
 
-export const Clients = () => {
+export const Clients = observer(() => {
     const { client } = useContext(Context);
 
     const [selectedRow, setSelectedRow] = useState(null);
+
+    useEffect(() => {
+        fetchClient().then((data) => client.setClients(data));
+    }, []);
     return (
         <div className="infoTable">
             <Container>
@@ -58,4 +64,4 @@ export const Clients = () => {
             </Container>
         </div>
     );
-};
+});

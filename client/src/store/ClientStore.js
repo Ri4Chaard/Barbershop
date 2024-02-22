@@ -4,22 +4,7 @@ import { makeAutoObservable } from "mobx";
 
 export default class ClientStore {
     constructor() {
-        this._clients = [
-            {
-                id: 1,
-                pib: "Половніков Ярослав Валентинович",
-                phone: "0689694882",
-                gender: "чоловік",
-                numOfVisists: 0,
-            },
-            {
-                id: 2,
-                pib: "Лактіонов Артем Сергійович",
-                phone: "0505304549",
-                gender: "чоловік",
-                numOfVisists: 0,
-            },
-        ];
+        this._clients = [];
         makeAutoObservable(this);
     }
     setClients(clients) {
