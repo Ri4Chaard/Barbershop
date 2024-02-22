@@ -4,18 +4,21 @@ import { Container } from "../components/UI/container/Container";
 import { Context } from "..";
 import { LinkButton } from "../components/UI/button/LinkButton";
 import { Link } from "react-router-dom";
-import AddUser from "../components/modals/AddUser";
 import { observer } from "mobx-react-lite";
 import { fetchClient } from "../http/clientAPI";
+import AddClient from "../components/modals/AddClient";
+import EditClient from "../components/modals/EditClient";
 
 export const Clients = observer(() => {
     const { client } = useContext(Context);
 
     const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedClient, setSelectedClient] = useState("");
 
     useEffect(() => {
         fetchClient().then((data) => client.setClients(data));
     }, []);
+
     return (
         <div className="infoTable">
             <Container>
@@ -39,9 +42,13 @@ export const Clients = observer(() => {
                                                 : {}
                                         }
                                         onClick={() => {
-                                            selectedRow == cl.id
-                                                ? setSelectedRow(null)
-                                                : setSelectedRow(cl.id);
+                                            if (selectedRow == cl.id) {
+                                                setSelectedRow(null);
+                                                setSelectedClient("");
+                                            } else {
+                                                setSelectedRow(cl.id);
+                                                setSelectedClient(cl);
+                                            }
                                         }}
                                     >
                                         <td>{cl.pib}</td>
@@ -57,8 +64,8 @@ export const Clients = observer(() => {
                         <Link key="/menu" to="/menu">
                             <LinkButton>Назад</LinkButton>
                         </Link>
-                        <AddUser />
-                        <LinkButton>Редагувати</LinkButton>
+                        <AddClient />
+                        <EditClient client={selectedClient} />
                     </div>
                 </div>
             </Container>

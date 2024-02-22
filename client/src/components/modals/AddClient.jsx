@@ -3,14 +3,15 @@ import classes from "./Modal.module.css";
 import { LinkButton } from "../UI/button/LinkButton";
 import { Modal } from "./Modal";
 import { createClient } from "../../http/clientAPI";
+import { observer } from "mobx-react-lite";
 
-const AddUser = () => {
+const AddClient = observer(() => {
     const [clientPib, setClientPib] = useState("");
     const [clientPhone, setClientPhone] = useState("");
     const [clientGender, setClientGender] = useState("");
+    const [visible, setVisible] = useState(false);
 
-    console.log(clientPib);
-    const addNewClient = () => {
+    const addNewClient = (e) => {
         createClient({
             pib: clientPib,
             phone: clientPhone,
@@ -20,11 +21,12 @@ const AddUser = () => {
             setClientPhone("");
             setClientGender("");
         });
+        setVisible(false);
     };
 
     return (
-        <Modal btnText="Додати">
-            <form action="#">
+        <Modal visible={visible} setVisible={setVisible} btnText="Додати">
+            <form>
                 <input
                     value={clientPib}
                     onChange={(e) => setClientPib(e.target.value)}
@@ -61,6 +63,6 @@ const AddUser = () => {
             </form>
         </Modal>
     );
-};
+});
 
-export default AddUser;
+export default AddClient;

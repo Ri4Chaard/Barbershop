@@ -5,6 +5,16 @@ export const createClient = async (pib, phone, gender) => {
     return data;
 };
 
+export const editClient = async (id, pib, phone, gender) => {
+    const { data } = await $host.post(
+        "api/client/edit",
+        id,
+        pib,
+        phone,
+        gender
+    );
+};
+
 export const fetchClient = async () => {
     const { data } = await $host.get("api/client");
     return data;
