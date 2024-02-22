@@ -1,17 +1,31 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../components/UI/container/Container";
 import { Context } from "..";
 import { Link } from "react-router-dom";
 import { LinkButton } from "../components/UI/button/LinkButton";
 import { AddOrder } from "../components/modals/AddOrder";
+import { fetchOrder } from "../http/orderAPI";
+import { fetchClient } from "../http/clientAPI";
+import { fetchSubsection } from "../http/subsectionAPI";
+import { fetchService } from "../http/serviceAPI";
+import { observer } from "mobx-react-lite";
+import { EditOrder } from "../components/modals/EditOrder";
 
-export const Orders = () => {
+export const Orders = observer(() => {
     const { order } = useContext(Context);
     const { client } = useContext(Context);
     const { service } = useContext(Context);
     const { subsection } = useContext(Context);
 
     const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState("");
+
+    useEffect(() => {
+        fetchOrder().then((data) => order.setOrders(data));
+        fetchClient().then((data) => client.setClients(data));
+        fetchSubsection().then((data) => subsection.setSubsections(data));
+        fetchService().then((data) => service.setServices(data));
+    }, []);
     return (
         <div className="infoTable">
             <Container>
@@ -23,8 +37,8 @@ export const Orders = () => {
                                 <tr>
                                     <th>ПІБ</th>
                                     <th>Назва послуги</th>
-                                    <th>Ціна</th>
                                     <th>Адреса філії</th>
+                                    <th>Ціна</th>
                                     <th>Дата запису</th>
                                 </tr>
                                 {order.orders.map((ord) => (
@@ -36,15 +50,19 @@ export const Orders = () => {
                                                 : {}
                                         }
                                         onClick={() => {
-                                            selectedRow == ord.id
-                                                ? setSelectedRow(null)
-                                                : setSelectedRow(ord.id);
+                                            if (selectedRow == ord.id) {
+                                                setSelectedRow(null);
+                                                setSelectedOrder("");
+                                            } else {
+                                                setSelectedRow(ord.id);
+                                                setSelectedOrder(ord);
+                                            }
                                         }}
                                     >
-                                        <td>{ord.pib}</td>
-                                        <td>{ord.name}</td>
-                                        <td>{ord.price}</td>
-                                        <td>{ord.adress}</td>
+                                        <td>{ord.clientName}</td>
+                                        <td>{ord.serviceName}</td>
+                                        <td>{ord.subsectionName}</td>
+                                        <td>{`${ord.price} грн.`}</td>
                                         <td>{ord.dateOfRecord}</td>
                                     </tr>
                                 ))}
@@ -55,11 +73,20 @@ export const Orders = () => {
                         <Link key="/menu" to="/menu">
                             <LinkButton>Назад</LinkButton>
                         </Link>
-                        <AddOrder />
-                        <LinkButton>Редагувати</LinkButton>
+                        <AddOrder
+                            clients={client.clients}
+                            services={service.services}
+                            subsections={subsection.subsections}
+                        />
+                        <EditOrder
+                            clients={client.clients}
+                            services={service.services}
+                            subsections={subsection.subsections}
+                            order={selectedOrder}
+                        />
                     </div>
                 </div>
             </Container>
         </div>
     );
-};
+});

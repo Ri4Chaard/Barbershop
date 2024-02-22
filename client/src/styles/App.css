@@ -59,3 +59,21 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
     background-color: rgb(228, 228, 228);
 }
+
+/* Forms inputs */
+
+select {
+    font-size: 14px;
+    border: 1px solid #5555;
+    margin: 5px 0;
+    padding: 10px;
+}
+.date {
+    margin: 5px 0 20px;
+    border: 1px solid #5555;
+    padding: 10px;
+}
+
+p {
+    margin: 20px 0 5px;
+}
