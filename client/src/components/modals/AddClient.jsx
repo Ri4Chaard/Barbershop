@@ -11,7 +11,7 @@ const AddClient = observer(() => {
     const [clientGender, setClientGender] = useState("");
     const [visible, setVisible] = useState(false);
 
-    const addNewClient = (e) => {
+    const addNewClient = () => {
         createClient({
             pib: clientPib,
             phone: clientPhone,

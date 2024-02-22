@@ -23,7 +23,7 @@ const EditClient = ({ client }) => {
         }
     }, [client]);
 
-    const editClientInfo = (e) => {
+    const editClientInfo = () => {
         editClient({
             id: clientId,
             pib: clientPib,
