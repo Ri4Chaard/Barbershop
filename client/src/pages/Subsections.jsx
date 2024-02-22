@@ -1,11 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "../components/UI/container/Container";
 import { Context } from "..";
 import { Link } from "react-router-dom";
 import { LinkButton } from "../components/UI/button/LinkButton";
+import { fetchSubsection } from "../http/subsectionAPI";
+import { observer } from "mobx-react-lite";
 
-export const Subsections = () => {
+export const Subsections = observer(() => {
     const { subsection } = useContext(Context);
+
+    useEffect(() => {
+        fetchSubsection().then((data) => subsection.setSubsections(data));
+    }, []);
 
     return (
         <div className="infoTable">
@@ -21,7 +27,7 @@ export const Subsections = () => {
                                 {subsection.subsections.map((subs) => (
                                     <tr key={subs.id}>
                                         <td style={{ textAlign: "center" }}>
-                                            {subs.adress}
+                                            {subs.address}
                                         </td>
                                     </tr>
                                 ))}
@@ -37,4 +43,4 @@ export const Subsections = () => {
             </Container>
         </div>
     );
-};
+});
