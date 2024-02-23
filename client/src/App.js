@@ -4,11 +4,11 @@ import { AppRouter } from "./components/AppRouter";
 function App() {
     return (
         <BrowserRouter>
-            <header>Div:easyOn</header>
+            <header>Перукарня</header>
             <main>
                 <AppRouter />
             </main>
-            <footer>Sample Text</footer>
+            <footer>Div:easyOn</footer>
         </BrowserRouter>
     );
 }

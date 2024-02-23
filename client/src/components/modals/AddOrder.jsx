@@ -40,6 +40,9 @@ export const AddOrder = ({ clients, services, subsections, orders }) => {
                         name="pib"
                         onChange={(e) => setClientPib(e.target.value)}
                     >
+                        <option value={null} selected>
+                            ---
+                        </option>
                         {clients.map((client) => (
                             <option key={client.id} value={client.id}>
                                 {client.pib}
@@ -51,6 +54,9 @@ export const AddOrder = ({ clients, services, subsections, orders }) => {
                         name="service"
                         onChange={(e) => setServiceName(e.target.value)}
                     >
+                        <option value={null} selected>
+                            ---
+                        </option>
                         {services.map((service) => (
                             <option key={service.id} value={service.id}>
                                 {service.name}
@@ -62,6 +68,9 @@ export const AddOrder = ({ clients, services, subsections, orders }) => {
                         name="subsection"
                         onChange={(e) => setSubsectionAdress(e.target.value)}
                     >
+                        <option value={null} selected>
+                            ---
+                        </option>
                         {subsections.map((subsection) => (
                             <option key={subsection.id} value={subsection.id}>
                                 {subsection.address}

@@ -6,6 +6,7 @@ import { LinkButton } from "../components/UI/button/LinkButton";
 import { fetchService } from "../http/serviceAPI";
 import { observer } from "mobx-react-lite";
 import { EditService } from "../components/modals/EditService";
+import { AddService } from "../components/modals/AddService";
 
 export const Services = observer(() => {
     const { service } = useContext(Context);
@@ -60,6 +61,7 @@ export const Services = observer(() => {
                         <Link key="/menu" to="/menu">
                             <LinkButton>Назад</LinkButton>
                         </Link>
+                        <AddService />
                         <EditService service={selectedService} />
                     </div>
                 </div>
