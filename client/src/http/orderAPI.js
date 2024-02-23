@@ -16,6 +16,11 @@ export const createOrder = async (
     return data;
 };
 
+export const deleteOrder = async (id) => {
+    const { data } = await $host.post("api/order/delete", id);
+    return data;
+};
+
 export const editOrder = async (
     id,
     price,

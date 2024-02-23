@@ -5,6 +5,11 @@ export const createService = async (name, price) => {
     return data;
 };
 
+export const deleteService = async (id) => {
+    const { data } = await $host.post("api/service/delete", id);
+    return data;
+};
+
 export const editService = async (id, name, price) => {
     const { data } = await $host.post("api/service/edit", id, name, price);
 };

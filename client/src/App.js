@@ -4,7 +4,7 @@ import { AppRouter } from "./components/AppRouter";
 function App() {
     return (
         <BrowserRouter>
-            <header>Перукарня</header>
+            <header>Перукарня місто Харків</header>
             <main>
                 <AppRouter />
             </main>

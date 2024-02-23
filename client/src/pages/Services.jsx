@@ -3,7 +3,7 @@ import { Container } from "../components/UI/container/Container";
 import { Context } from "..";
 import { Link } from "react-router-dom";
 import { LinkButton } from "../components/UI/button/LinkButton";
-import { fetchService } from "../http/serviceAPI";
+import { deleteService, fetchService } from "../http/serviceAPI";
 import { observer } from "mobx-react-lite";
 import { EditService } from "../components/modals/EditService";
 import { AddService } from "../components/modals/AddService";
@@ -18,6 +18,13 @@ export const Services = observer(() => {
         fetchService().then((data) => service.setServices(data));
     }, []);
 
+    const deleteSelectedService = () => {
+        deleteService({ id: selectedService.id }).then((data) => {
+            selectedService("");
+        });
+        window.location.reload();
+    };
+
     return (
         <div className="infoTable">
             <Container>
@@ -28,7 +35,7 @@ export const Services = observer(() => {
                             <tbody>
                                 <tr>
                                     <th>Назва послуги</th>
-                                    <th>Ціна</th>
+                                    <th>Ціна грн.</th>
                                 </tr>
                                 {service.services.map((serv) => (
                                     <tr
@@ -51,7 +58,7 @@ export const Services = observer(() => {
                                         <td style={{ textAlign: "center" }}>
                                             {serv.name}
                                         </td>
-                                        <td>{`${serv.price} грн.`}</td>
+                                        <td>{serv.price}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -62,6 +69,17 @@ export const Services = observer(() => {
                             <LinkButton>Назад</LinkButton>
                         </Link>
                         <AddService />
+                        <LinkButton
+                            onClick={deleteSelectedService}
+                            disabled={selectedService ? false : true}
+                            style={
+                                selectedService
+                                    ? {}
+                                    : { opacity: "0.7", zIndex: "0" }
+                            }
+                        >
+                            Видалити
+                        </LinkButton>
                         <EditService service={selectedService} />
                     </div>
                 </div>

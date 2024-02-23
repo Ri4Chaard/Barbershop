@@ -5,7 +5,7 @@ import { Context } from "..";
 import { LinkButton } from "../components/UI/button/LinkButton";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { fetchClient } from "../http/clientAPI";
+import { deleteClient, fetchClient } from "../http/clientAPI";
 import AddClient from "../components/modals/AddClient";
 import EditClient from "../components/modals/EditClient";
 
@@ -18,6 +18,15 @@ export const Clients = observer(() => {
     useEffect(() => {
         fetchClient().then((data) => client.setClients(data));
     }, []);
+
+    console.log(selectedClient.id);
+
+    const deleteSelectedClient = () => {
+        deleteClient({ id: selectedClient.id }).then((data) => {
+            setSelectedClient("");
+        });
+        window.location.reload();
+    };
 
     return (
         <div className="infoTable">
@@ -65,6 +74,17 @@ export const Clients = observer(() => {
                             <LinkButton>Назад</LinkButton>
                         </Link>
                         <AddClient />
+                        <LinkButton
+                            onClick={deleteSelectedClient}
+                            disabled={selectedClient ? false : true}
+                            style={
+                                selectedClient
+                                    ? {}
+                                    : { opacity: "0.7", zIndex: 0 }
+                            }
+                        >
+                            Видалити
+                        </LinkButton>
                         <EditClient client={selectedClient} />
                     </div>
                 </div>

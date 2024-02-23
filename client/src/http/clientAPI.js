@@ -15,6 +15,11 @@ export const editClient = async (id, pib, phone, gender) => {
     );
 };
 
+export const deleteClient = async (id) => {
+    const { data } = await $host.post("api/client/delete", id);
+    return data;
+};
+
 export const fetchClient = async () => {
     const { data } = await $host.get("api/client");
     return data;

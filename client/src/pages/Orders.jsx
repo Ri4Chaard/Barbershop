@@ -4,7 +4,7 @@ import { Context } from "..";
 import { Link } from "react-router-dom";
 import { LinkButton } from "../components/UI/button/LinkButton";
 import { AddOrder } from "../components/modals/AddOrder";
-import { fetchOrder } from "../http/orderAPI";
+import { deleteOrder, fetchOrder } from "../http/orderAPI";
 import { fetchClient } from "../http/clientAPI";
 import { fetchSubsection } from "../http/subsectionAPI";
 import { fetchService } from "../http/serviceAPI";
@@ -26,6 +26,14 @@ export const Orders = observer(() => {
         fetchSubsection().then((data) => subsection.setSubsections(data));
         fetchService().then((data) => service.setServices(data));
     }, []);
+
+    const deleteSelectedOrder = () => {
+        deleteOrder({ id: selectedOrder.id }).then((data) => {
+            setSelectedOrder("");
+        });
+        window.location.reload();
+    };
+
     return (
         <div className="infoTable">
             <Container>
@@ -38,7 +46,7 @@ export const Orders = observer(() => {
                                     <th>ПІБ</th>
                                     <th>Назва послуги</th>
                                     <th>Адреса філії</th>
-                                    <th>Ціна</th>
+                                    <th>Ціна грн.</th>
                                     <th>Дата запису</th>
                                 </tr>
                                 {order.orders.map((ord) => (
@@ -62,7 +70,7 @@ export const Orders = observer(() => {
                                         <td>{ord.clientName}</td>
                                         <td>{ord.serviceName}</td>
                                         <td>{ord.subsectionName}</td>
-                                        <td>{`${ord.price} грн.`}</td>
+                                        <td>{ord.price}</td>
                                         <td>{ord.dateOfRecord}</td>
                                     </tr>
                                 ))}
@@ -78,6 +86,17 @@ export const Orders = observer(() => {
                             services={service.services}
                             subsections={subsection.subsections}
                         />
+                        <LinkButton
+                            onClick={deleteSelectedOrder}
+                            disabled={selectedOrder ? false : true}
+                            style={
+                                selectedOrder
+                                    ? {}
+                                    : { opacity: "0.7", zIndex: 0 }
+                            }
+                        >
+                            Видалити
+                        </LinkButton>
                         <EditOrder
                             clients={client.clients}
                             services={service.services}
