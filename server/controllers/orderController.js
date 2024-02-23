@@ -53,6 +53,8 @@ class OrderController {
   }
 
   async edit(req, res, next) {
+    let client, service, subsection, clientName, serviceName, subsectionName;
+
     const orderId = req.body.id;
     const newPrice = req.body.price;
     const newDateOfRecord = req.body.dateOfRecord;
@@ -60,20 +62,24 @@ class OrderController {
     const newServiceId = req.body.serviceId;
     const newSubsectionId = req.body.subsectionId;
 
-    let client, service, subsection, clientName, serviceName, subsectionName;
+    client = await Client.findByPk(newClientId).then((data) => {
+      clientName = data.pib;
+    });
+    service = await Service.findByPk(newServiceId).then((data) => {
+      serviceName = data.name;
+    });
+    subsection = await Subsection.findByPk(newSubsectionId).then((data) => {
+      subsectionName = data.address;
+    });
 
     const order = await Order.findByPk(orderId);
 
     if (order) {
-      client = await Client.findByPk(order.clientId);
-      service = await Service.findByPk(order.serviceId);
-      subsection = await Subsection.findByPk(order.subsectionId);
-
       order.price = newPrice;
       order.dateOfRecord = newDateOfRecord;
-      order.clientName = client.pib;
-      order.serviceName = service.name;
-      order.subsectionName = subsection.address;
+      order.clientName = clientName;
+      order.serviceName = serviceName;
+      order.subsectionName = subsectionName;
       order.clientId = newClientId;
       order.serviceId = newServiceId;
       order.subsectionId = newSubsectionId;
