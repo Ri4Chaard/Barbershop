@@ -17,6 +17,15 @@ class ServiceController {
     return res.json(services);
   }
 
+  async deleteService(req, res, next) {
+    const serviceId = req.body.id;
+    const service = await Service.findByPk(serviceId);
+
+    await service.destroy();
+
+    return res.json({ service });
+  }
+
   async edit(req, res, next) {
     const serviceId = req.body.id;
     const newName = req.body.name;

@@ -17,6 +17,15 @@ class ClientController {
     return res.json(clients);
   }
 
+  async deleteClient(req, res, next) {
+    const clientId = req.body.id;
+    const client = await Client.findByPk(clientId);
+
+    await client.destroy();
+
+    return res.json({ client });
+  }
+
   async edit(req, res, next) {
     const clientId = req.body.id;
     const newPib = req.body.pib;

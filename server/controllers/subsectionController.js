@@ -8,6 +8,15 @@ class SubsectionController {
     return res.json({ subsection });
   }
 
+  async deleteSubsection(req, res, next) {
+    const subsectionId = req.body.id;
+    const subsection = await Subsection.findByPk(subsectionId);
+
+    await subsection.destroy();
+
+    return res.json({ order });
+  }
+
   async getAll(req, res) {
     const subsections = await Subsection.findAll();
     return res.json(subsections);

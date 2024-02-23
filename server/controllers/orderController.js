@@ -52,6 +52,15 @@ class OrderController {
     return res.json(orders);
   }
 
+  async deleteOrder(req, res, next) {
+    const orderId = req.body.id;
+    const order = await Order.findByPk(orderId);
+
+    await order.destroy();
+
+    return res.json({ order });
+  }
+
   async edit(req, res, next) {
     let client, service, subsection, clientName, serviceName, subsectionName;
 
