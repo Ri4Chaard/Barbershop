@@ -11,8 +11,6 @@ export const EditOrder = ({ clients, services, subsections, order }) => {
     const [date, setDate] = useState("");
     const [visible, setVisible] = useState(false);
 
-    console.log(order.dateOfRecord);
-
     const editOrderInfo = () => {
         editOrder({
             id: orderId,
