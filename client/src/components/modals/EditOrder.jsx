@@ -1,36 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "./Modal";
 import { LinkButton } from "../UI/button/LinkButton";
-import { createOrder } from "../../http/orderAPI";
+import { editOrder } from "../../http/orderAPI";
 
-export const AddOrder = ({ clients, services, subsections, orders }) => {
-    const [visible, setVisible] = useState(false);
-
+export const EditOrder = ({ clients, services, subsections, order }) => {
+    const [orderId, setOrderId] = useState("");
     const [clientPib, setClientPib] = useState("");
     const [serviceName, setServiceName] = useState("");
     const [subsectionAdress, setSubsectionAdress] = useState("");
     const [date, setDate] = useState("");
+    const [visible, setVisible] = useState(false);
 
-    const addOrder = () => {
-        createOrder({
+    console.log(order.dateOfRecord);
+
+    const editOrderInfo = () => {
+        editOrder({
+            id: orderId,
+            price: order.price,
             dateOfRecord: date,
             clientId: clientPib,
             serviceId: serviceName,
             subsectionId: subsectionAdress,
         }).then((data) => {
-            setDate("");
+            setOrderId("");
+            setClientPib("");
             setServiceName("");
             setSubsectionAdress("");
-            setClientPib("");
+            setDate("");
         });
         setVisible(false);
     };
+
+    useEffect(() => {
+        if (order) {
+            setOrderId(order.id);
+            setClientPib(order.clientId);
+            setServiceName(order.serviceId);
+            setSubsectionAdress(order.subsectionId);
+            setDate(order.dateOfRecord);
+        } else {
+            setOrderId("");
+            setClientPib("");
+            setServiceName("");
+            setSubsectionAdress("");
+            setDate("");
+        }
+    }, [order]);
 
     return (
         <Modal
             visible={visible}
             setVisible={setVisible}
-            btnText="Додати замовлення"
+            btnText="Редагувати"
+            disabled={order ? false : true}
         >
             <div>
                 <h2>Замовлення</h2>
@@ -38,6 +60,7 @@ export const AddOrder = ({ clients, services, subsections, orders }) => {
                     <p>ПІБ</p>
                     <select
                         name="pib"
+                        value={clientPib}
                         onChange={(e) => setClientPib(e.target.value)}
                     >
                         {clients.map((client) => (
@@ -49,6 +72,7 @@ export const AddOrder = ({ clients, services, subsections, orders }) => {
                     <p>Назва послуги</p>
                     <select
                         name="service"
+                        value={serviceName}
                         onChange={(e) => setServiceName(e.target.value)}
                     >
                         {services.map((service) => (
@@ -60,6 +84,7 @@ export const AddOrder = ({ clients, services, subsections, orders }) => {
                     <p>Адреса філії</p>
                     <select
                         name="subsection"
+                        value={subsectionAdress}
                         onChange={(e) => setSubsectionAdress(e.target.value)}
                     >
                         {subsections.map((subsection) => (
@@ -72,11 +97,12 @@ export const AddOrder = ({ clients, services, subsections, orders }) => {
                     <input
                         className="date"
                         type="datetime-local"
+                        value={date}
                         onChange={(e) => {
                             setDate(e.target.value);
                         }}
                     />
-                    <LinkButton onClick={addOrder}>Додати</LinkButton>
+                    <LinkButton onClick={editOrderInfo}>Зберегти</LinkButton>
                 </form>
             </div>
         </Modal>

@@ -3,9 +3,8 @@ import classes from "./Modal.module.css";
 import { LinkButton } from "../UI/button/LinkButton";
 import { Modal } from "./Modal";
 import { createClient } from "../../http/clientAPI";
-import { observer } from "mobx-react-lite";
 
-const AddClient = observer(() => {
+export const AddClient = () => {
     const [clientPib, setClientPib] = useState("");
     const [clientPhone, setClientPhone] = useState("");
     const [clientGender, setClientGender] = useState("");
@@ -63,6 +62,6 @@ const AddClient = observer(() => {
             </form>
         </Modal>
     );
-});
+};
 
 export default AddClient;
